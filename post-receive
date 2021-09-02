@@ -1,0 +1,51 @@
+#!/bin/sh
+
+set -e
+
+# Exporting NVM dir to allow uses npm command.
+export NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+
+# Export composer path.
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+export WORK_TREE="/var/www/nbc"
+export NODE_VERSION="14.17"
+export THEME_PATH="$WORK_TREE/web/themes/custom/nbc"
+
+echo "==================================================="
+echo "=====> Checking out code to the work-tree: $WORK_TREE"
+echo "==================================================="
+git --work-tree=/var/www/nbc --git-dir=/var/repo/nbc.git checkout -f
+
+echo "==================================================="
+echo "=====> Installing composer changes on $WORK_TREE"
+echo "==================================================="
+composer install --working-dir=$WORK_TREE --no-interaction
+
+echo "==================================================="
+echo "=====> Selecting the correct node version $NODE_VERSION."
+echo "==================================================="
+nvm i $NODE_VERSION
+
+echo "==================================================="
+echo "=====> Installing node modules on $THEME_PATH."
+echo "==================================================="
+npm --prefix $THEME_PATH install
+
+echo "==================================================="
+echo "=====> Running build."
+echo "==================================================="
+npm --prefix $THEME_PATH run build
+
+echo "==================================================="
+echo "=====> Clering Drupal caches."
+echo "==================================================="
+drush cr --root=$WORK_TREE
+
+echo "==================================================="
+echo "=====> Importing configurations."
+echo "==================================================="
+drush cim --root=$WORK_TREE
+
+echo "..::::::: FINISHED :::::::.."
