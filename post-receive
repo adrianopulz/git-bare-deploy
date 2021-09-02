@@ -9,14 +9,14 @@ export NVM_DIR="$HOME/.nvm"
 # Export composer path.
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
-export WORK_TREE="/var/www/nbc"
+export WORK_TREE="/var/www/project"
 export NODE_VERSION="14.17"
-export THEME_PATH="$WORK_TREE/web/themes/custom/nbc"
+export THEME_PATH="$WORK_TREE/web/themes/custom/my_theme"
 
 echo "==================================================="
 echo "=====> Checking out code to the work-tree: $WORK_TREE"
 echo "==================================================="
-git --work-tree=/var/www/nbc --git-dir=/var/repo/nbc.git checkout -f
+git --work-tree=$WORK_TREE --git-dir=/var/repo/project.git checkout -f
 
 echo "==================================================="
 echo "=====> Installing composer changes on $WORK_TREE"
