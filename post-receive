@@ -9,14 +9,14 @@ export NVM_DIR="$HOME/.nvm"
 # Export composer path.
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
-export WORK_TREE="/var/www/project"
+export WORK_TREE="/var/www/PROJECT"
 export NODE_VERSION="14.17"
-export THEME_PATH="$WORK_TREE/web/themes/custom/my_theme"
+export THEME_PATH="$WORK_TREE/web/themes/custom/THEME"
 
 echo "==================================================="
 echo "=====> Checking out code to the work-tree: $WORK_TREE"
 echo "==================================================="
-git --work-tree=$WORK_TREE --git-dir=/var/repo/project.git checkout -f
+git --work-tree=/var/www/PROJECT --git-dir=/var/repo/PROJECT.git checkout -f
 
 echo "==================================================="
 echo "=====> Installing composer changes on $WORK_TREE"
@@ -46,6 +46,7 @@ drush cr --root=$WORK_TREE
 echo "==================================================="
 echo "=====> Importing configurations."
 echo "==================================================="
-drush cim --root=$WORK_TREE
+drush cim -y --root=$WORK_TREE
 
 echo "..::::::: FINISHED :::::::.."
+
